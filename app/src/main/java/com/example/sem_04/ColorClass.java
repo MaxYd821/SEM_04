@@ -3,6 +3,8 @@ package com.example.sem_04;
 import com.google.gson.annotations.SerializedName;
 
 public class ColorClass {
+
+    private int id;
     private String name;
     @SerializedName("color_hex")
     private String hex;
@@ -12,6 +14,12 @@ public class ColorClass {
         this.hex = hex;
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public ColorClass() {
     }
 
