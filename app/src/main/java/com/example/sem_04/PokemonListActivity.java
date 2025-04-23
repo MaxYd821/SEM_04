@@ -73,23 +73,26 @@ public class PokemonListActivity extends AppCompatActivity {
         isLoading = true;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://pokeapi.co/api/v2")
+                .baseUrl("https://pokeapi.co/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         PokemonService service = retrofit.create(PokemonService.class);
-        service.getPokemon(20,currentPage).enqueue(new Callback<Pokemon>() {
+        int offset = (currentPage - 1) * 20;
+        service.getPokemon(20,offset).enqueue(new Callback<Pokemon>() {
 
             @Override
             public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                 isLoading = false;
-                if (!response.isSuccessful()) return;
-                if(response.body() == null) return;
-                if (response.body().isEmpty()) {
+                if (!response.isSuccessful() || response.body() == null) return;
+
+                List<PokemonList> results = response.body().getResults();
+
+                if (results.isEmpty()) {
                     isLastPage = true;
                     return;
                 }
 
-                data.addAll(response.body());
+                data.addAll(results);
                 adapter.notifyDataSetChanged();
                 //List<ColorClass> data = response.body();
 
@@ -129,7 +132,7 @@ public class PokemonListActivity extends AppCompatActivity {
                             && firstVisibleItemPosition >= 0) {
 
                         currentPage++;
-                        loadMoreColors();
+                        loadMorePokemons();
                     }
                 }
             }

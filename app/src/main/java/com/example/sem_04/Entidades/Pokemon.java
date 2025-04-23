@@ -4,5 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pokemon {
-    public List<PokemonList> results;
+    private List<PokemonList> results;
+
+    public Pokemon(List<PokemonList> results) {
+        this.results = results;
+    }
+
+    public Pokemon() {
+    }
+
+    public List<PokemonList> getResults() {
+        return results;
+    }
+    public void setResults(List<PokemonList> results) {
+        this.results = results;
+    }
 }
